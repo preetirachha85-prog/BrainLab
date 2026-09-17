@@ -1,0 +1,1385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BrainLab - Train Your Brain</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at top left,#18245a 0%,transparent 35%),
+        radial-gradient(circle at bottom right,#3b145f 0%,transparent 35%),
+        #080b18;
+    color:#fff;
+    min-height:100vh;
+}
+
+button{
+    font-family:inherit;
+}
+
+.container{
+    width:min(1100px,92%);
+    margin:auto;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+    padding:22px 0;
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.nav{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.logo{
+    font-size:25px;
+    font-weight:800;
+}
+
+.logo span{
+    color:#8b7cff;
+}
+
+.nav-tag{
+    font-size:13px;
+    color:#a9b0c9;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    text-align:center;
+    padding:70px 15px 45px;
+}
+
+.hero h1{
+    font-size:clamp(38px,7vw,72px);
+    line-height:1.05;
+    margin-bottom:18px;
+}
+
+.hero h1 span{
+    background:linear-gradient(90deg,#8b7cff,#d37cff);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.hero p{
+    color:#aeb5cf;
+    max-width:650px;
+    margin:auto;
+    line-height:1.7;
+    font-size:17px;
+}
+
+/* =========================
+   AD SPACE
+========================= */
+
+.ad-space{
+    min-height:90px;
+    border:1px dashed rgba(255,255,255,.16);
+    border-radius:14px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:#666d87;
+    font-size:11px;
+    letter-spacing:2px;
+    margin:25px 0;
+}
+
+/* =========================
+   LAB CARDS
+========================= */
+
+.section-title{
+    text-align:center;
+    margin:55px 0 25px;
+}
+
+.section-title h2{
+    font-size:30px;
+}
+
+.section-title p{
+    color:#8f96b0;
+    margin-top:8px;
+}
+
+.labs{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:18px;
+}
+
+.lab-card{
+    background:rgba(255,255,255,.055);
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:20px;
+    padding:25px 20px;
+    transition:.25s;
+}
+
+.lab-card:hover{
+    transform:translateY(-5px);
+    border-color:rgba(139,124,255,.5);
+    background:rgba(255,255,255,.075);
+}
+
+.lab-icon{
+    font-size:38px;
+    margin-bottom:15px;
+}
+
+.lab-card h3{
+    font-size:21px;
+    margin-bottom:8px;
+}
+
+.lab-card p{
+    color:#9299b4;
+    font-size:14px;
+    line-height:1.5;
+    min-height:65px;
+}
+
+.lab-level{
+    color:#8b7cff;
+    font-size:12px;
+    margin:15px 0;
+}
+
+.start-btn{
+    width:100%;
+    border:0;
+    padding:12px;
+    border-radius:11px;
+    cursor:pointer;
+    color:white;
+    background:#6254e8;
+    font-weight:bold;
+    transition:.2s;
+}
+
+.start-btn:hover{
+    background:#7467ff;
+}
+
+/* =========================
+   TEST SCREEN
+========================= */
+
+#testScreen{
+    display:none;
+}
+
+.test-box{
+    max-width:750px;
+    margin:45px auto;
+    background:rgba(255,255,255,.055);
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:24px;
+    padding:30px;
+}
+
+.test-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    margin-bottom:25px;
+}
+
+.back-btn{
+    background:transparent;
+    border:1px solid rgba(255,255,255,.15);
+    color:#aeb5cf;
+    padding:8px 14px;
+    border-radius:9px;
+    cursor:pointer;
+}
+
+.level-label{
+    color:#9fa6c0;
+    font-size:14px;
+}
+
+.progress{
+    width:100%;
+    height:7px;
+    background:#1c2136;
+    border-radius:10px;
+    overflow:hidden;
+    margin-bottom:30px;
+}
+
+.progress-bar{
+    height:100%;
+    width:10%;
+    background:linear-gradient(90deg,#6254e8,#c06bff);
+    transition:.3s;
+}
+
+.test-title{
+    text-align:center;
+    font-size:30px;
+    margin-bottom:10px;
+}
+
+.test-description{
+    text-align:center;
+    color:#949bb5;
+    margin-bottom:30px;
+}
+
+/* =========================
+   TEST AREA
+========================= */
+
+.test-area{
+    min-height:280px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+/* Reaction */
+
+.reaction-button{
+    width:min(280px,80vw);
+    height:180px;
+    border:0;
+    border-radius:25px;
+    background:#252b43;
+    color:white;
+    font-size:25px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.reaction-button.ready{
+    background:#22a96b;
+}
+
+/* Memory */
+
+.memory-sequence{
+    font-size:45px;
+    font-weight:bold;
+    letter-spacing:8px;
+    min-height:65px;
+    text-align:center;
+}
+
+.memory-input{
+    width:100%;
+    max-width:400px;
+    padding:14px;
+    margin-top:25px;
+    border-radius:10px;
+    border:1px solid #343a58;
+    background:#101426;
+    color:white;
+    font-size:18px;
+    outline:none;
+    text-align:center;
+}
+
+.action-btn{
+    border:0;
+    padding:13px 25px;
+    border-radius:11px;
+    background:#6254e8;
+    color:white;
+    cursor:pointer;
+    font-weight:bold;
+    margin-top:18px;
+}
+
+/* Focus */
+
+.focus-grid{
+    display:grid;
+    gap:7px;
+    margin:auto;
+}
+
+.focus-cell{
+    width:48px;
+    height:48px;
+    border-radius:8px;
+    background:#222841;
+    border:1px solid rgba(255,255,255,.04);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    cursor:pointer;
+    font-size:22px;
+}
+
+/* Logic */
+
+.logic-question{
+    font-size:28px;
+    text-align:center;
+    line-height:1.5;
+    margin-bottom:25px;
+}
+
+.logic-input{
+    width:180px;
+    padding:13px;
+    border-radius:10px;
+    border:1px solid #343a58;
+    background:#101426;
+    color:white;
+    font-size:20px;
+    text-align:center;
+    outline:none;
+}
+
+/* =========================
+   RESULT
+========================= */
+
+#resultScreen{
+    display:none;
+    text-align:center;
+    padding:60px 15px;
+}
+
+.result-box{
+    max-width:650px;
+    margin:auto;
+    background:rgba(255,255,255,.055);
+    border:1px solid rgba(255,255,255,.1);
+    border-radius:25px;
+    padding:40px 25px;
+}
+
+.result-icon{
+    font-size:55px;
+    margin-bottom:15px;
+}
+
+.result-score{
+    font-size:65px;
+    font-weight:800;
+    margin:15px 0;
+    background:linear-gradient(90deg,#8b7cff,#d37cff);
+    -webkit-background-clip:text;
+    color:transparent;
+}
+
+.result-text{
+    color:#a5acc5;
+    line-height:1.6;
+}
+
+.result-stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin:30px 0;
+}
+
+.stat{
+    background:#12172a;
+    padding:18px 10px;
+    border-radius:13px;
+}
+
+.stat strong{
+    display:block;
+    font-size:24px;
+    margin-bottom:5px;
+}
+
+.stat span{
+    color:#858ca7;
+    font-size:12px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+    margin-top:70px;
+    border-top:1px solid rgba(255,255,255,.08);
+    padding:25px 0;
+    text-align:center;
+    color:#646b83;
+    font-size:12px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:850px){
+
+    .labs{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:550px){
+
+    .container{
+        width:94%;
+    }
+
+    header{
+        padding:17px 0;
+    }
+
+    .nav-tag{
+        display:none;
+    }
+
+    .hero{
+        padding:50px 10px 30px;
+    }
+
+    .hero p{
+        font-size:15px;
+    }
+
+    .labs{
+        grid-template-columns:1fr;
+    }
+
+    .lab-card p{
+        min-height:auto;
+    }
+
+    .test-box{
+        padding:20px 15px;
+        margin:25px auto;
+    }
+
+    .test-title{
+        font-size:25px;
+    }
+
+    .memory-sequence{
+        font-size:30px;
+        letter-spacing:4px;
+    }
+
+    .focus-cell{
+        width:38px;
+        height:38px;
+    }
+
+    .result-stats{
+        grid-template-columns:1fr;
+    }
+
+    .result-score{
+        font-size:52px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="container nav">
+        <div class="logo">🧠 Brain<span>Lab</span></div>
+        <div class="nav-tag">Train • Test • Improve</div>
+    </div>
+</header>
+
+
+<!-- =========================
+     HOME SCREEN
+========================= -->
+
+<main id="homeScreen">
+
+<div class="container">
+
+    <section class="hero">
+        <h1>Train your <span>brain.</span><br>Push your limits.</h1>
+        <p>
+            Challenge your reaction, memory, focus and logic
+            through progressively harder levels.
+        </p>
+    </section>
+
+    <div class="ad-space">
+        ADVERTISEMENT SPACE
+    </div>
+
+    <section class="section-title">
+        <h2>Choose Your Lab</h2>
+        <p>Each challenge has 10 progressive levels.</p>
+    </section>
+
+    <section class="labs">
+
+        <div class="lab-card">
+            <div class="lab-icon">⚡</div>
+            <h3>Reaction</h3>
+            <p>
+                Test how quickly you can react when the signal appears.
+            </p>
+            <div class="lab-level">LEVEL 1 — 10</div>
+            <button class="start-btn" onclick="startTest('reaction')">
+                Start Test
+            </button>
+        </div>
+
+        <div class="lab-card">
+            <div class="lab-icon">🧠</div>
+            <h3>Memory</h3>
+            <p>
+                Remember increasingly longer sequences of numbers.
+            </p>
+            <div class="lab-level">LEVEL 1 — 10</div>
+            <button class="start-btn" onclick="startTest('memory')">
+                Start Test
+            </button>
+        </div>
+
+        <div class="lab-card">
+            <div class="lab-icon">🎯</div>
+            <h3>Focus</h3>
+            <p>
+                Find the different symbol while the grid becomes harder.
+            </p>
+            <div class="lab-level">LEVEL 1 — 10</div>
+            <button class="start-btn" onclick="startTest('focus')">
+                Start Test
+            </button>
+        </div>
+
+        <div class="lab-card">
+            <div class="lab-icon">🔢</div>
+            <h3>Logic</h3>
+            <p>
+                Solve number patterns that become more challenging.
+            </p>
+            <div class="lab-level">LEVEL 1 — 10</div>
+            <button class="start-btn" onclick="startTest('logic')">
+                Start Test
+            </button>
+        </div>
+
+    </section>
+
+    <div class="ad-space">
+        ADVERTISEMENT SPACE
+    </div>
+
+</div>
+
+</main>
+
+
+<!-- =========================
+     TEST SCREEN
+========================= -->
+
+<section id="testScreen">
+
+<div class="container">
+
+    <div class="test-box">
+
+        <div class="test-top">
+            <button class="back-btn" onclick="goHome()">← Home</button>
+            <div class="level-label" id="levelLabel">
+                Level 1 / 10
+            </div>
+        </div>
+
+        <div class="progress">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <h2 class="test-title" id="testTitle"></h2>
+
+        <p class="test-description" id="testDescription"></p>
+
+        <div class="test-area" id="testArea"></div>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     RESULT SCREEN
+========================= -->
+
+<section id="resultScreen">
+
+<div class="container">
+
+    <div class="result-box">
+
+        <div class="result-icon">🧠</div>
+
+        <h2>Challenge Complete!</h2>
+
+        <div class="result-score" id="finalScore">
+            0
+        </div>
+
+        <p class="result-text" id="resultMessage">
+            Great work!
+        </p>
+
+        <div class="result-stats">
+
+            <div class="stat">
+                <strong id="correctStat">0</strong>
+                <span>Correct</span>
+            </div>
+
+            <div class="stat">
+                <strong id="levelStat">10</strong>
+                <span>Levels</span>
+            </div>
+
+            <div class="stat">
+                <strong id="percentStat">0%</strong>
+                <span>Accuracy</span>
+            </div>
+
+        </div>
+
+        <button class="start-btn" onclick="goHome()">
+            Back to BrainLab
+        </button>
+
+    </div>
+
+</div>
+
+</section>
+
+
+<footer>
+    BrainLab © 2026 • Brain challenges for practice and fun.
+</footer>
+
+
+<script>
+
+/* =========================================
+   GLOBAL VARIABLES
+========================================= */
+
+let currentTest = "";
+let currentLevel = 1;
+let score = 0;
+let correctAnswers = 0;
+let totalAnswers = 0;
+
+let reactionStart = 0;
+let reactionTimer = null;
+
+let memorySequence = "";
+let memoryTimeout = null;
+
+let logicAnswer = null;
+
+
+/* =========================================
+   START TEST
+========================================= */
+
+function startTest(type){
+
+    currentTest = type;
+    currentLevel = 1;
+    score = 0;
+    correctAnswers = 0;
+    totalAnswers = 0;
+
+    document.getElementById("homeScreen").style.display = "none";
+    document.getElementById("resultScreen").style.display = "none";
+    document.getElementById("testScreen").style.display = "block";
+
+    loadLevel();
+}
+
+
+/* =========================================
+   LOAD LEVEL
+========================================= */
+
+function loadLevel(){
+
+    document.getElementById("levelLabel").textContent =
+        "Level " + currentLevel + " / 10";
+
+    document.getElementById("progressBar").style.width =
+        (currentLevel * 10) + "%";
+
+    if(currentTest === "reaction"){
+        loadReaction();
+    }
+
+    if(currentTest === "memory"){
+        loadMemory();
+    }
+
+    if(currentTest === "focus"){
+        loadFocus();
+    }
+
+    if(currentTest === "logic"){
+        loadLogic();
+    }
+}
+
+
+/* =========================================
+   REACTION TEST
+========================================= */
+
+function loadReaction(){
+
+    document.getElementById("testTitle").textContent =
+        "⚡ Reaction Test";
+
+    document.getElementById("testDescription").textContent =
+        "Wait for the signal, then tap as quickly as possible.";
+
+    const area = document.getElementById("testArea");
+
+    area.innerHTML = `
+        <button class="reaction-button" id="reactionBtn">
+            WAIT...
+        </button>
+    `;
+
+    const btn = document.getElementById("reactionBtn");
+
+    let finished = false;
+
+    btn.onclick = function(){
+
+        if(finished) return;
+
+        if(!btn.classList.contains("ready")){
+
+            clearTimeout(reactionTimer);
+
+            finished = true;
+
+            btn.textContent = "Too Early!";
+
+            totalAnswers++;
+
+            setTimeout(nextLevel,800);
+
+            return;
+        }
+
+        finished = true;
+
+        const reactionTime =
+            performance.now() - reactionStart;
+
+        let points =
+            Math.max(
+                10,
+                Math.round(
+                    100 - reactionTime / 8
+                )
+            );
+
+        points += currentLevel * 5;
+
+        score += points;
+
+        correctAnswers++;
+        totalAnswers++;
+
+        btn.textContent =
+            Math.round(reactionTime) + " ms";
+
+        setTimeout(nextLevel,900);
+    };
+
+
+    const delay =
+        Math.max(
+            900,
+            2200 - currentLevel * 100
+        )
+        + Math.random() * 1800;
+
+    reactionTimer = setTimeout(function(){
+
+        if(finished) return;
+
+        btn.classList.add("ready");
+        btn.textContent = "TAP NOW!";
+
+        reactionStart = performance.now();
+
+    },delay);
+}
+
+
+/* =========================================
+   MEMORY TEST
+========================================= */
+
+function loadMemory(){
+
+    document.getElementById("testTitle").textContent =
+        "🧠 Memory Test";
+
+    document.getElementById("testDescription").textContent =
+        "Remember the sequence and enter it after it disappears.";
+
+    const area = document.getElementById("testArea");
+
+    const length =
+        3 + currentLevel;
+
+    memorySequence = "";
+
+    for(let i=0;i<length;i++){
+
+        memorySequence +=
+            Math.floor(Math.random()*10);
+
+    }
+
+    area.innerHTML = `
+        <div class="memory-sequence" id="memorySequence">
+            ${memorySequence}
+        </div>
+
+        <input
+            class="memory-input"
+            id="memoryInput"
+            placeholder="Enter sequence"
+            inputmode="numeric"
+            style="display:none"
+        >
+
+        <button
+            class="action-btn"
+            id="memoryBtn"
+            style="display:none"
+        >
+            Submit
+        </button>
+    `;
+
+    memoryTimeout = setTimeout(function(){
+
+        document.getElementById("memorySequence")
+            .textContent = "• • •";
+
+        document.getElementById("memoryInput")
+            .style.display = "block";
+
+        document.getElementById("memoryBtn")
+            .style.display = "block";
+
+        document.getElementById("memoryInput").focus();
+
+    },Math.max(1300,3000-currentLevel*120));
+
+
+    document.getElementById("memoryBtn").onclick =
+        checkMemory;
+
+    document.getElementById("memoryInput").onkeydown =
+        function(e){
+
+            if(e.key === "Enter"){
+                checkMemory();
+            }
+
+        };
+}
+
+
+function checkMemory(){
+
+    const input =
+        document.getElementById("memoryInput").value.trim();
+
+    totalAnswers++;
+
+    if(input === memorySequence){
+
+        correctAnswers++;
+
+        score += 50 + currentLevel * 10;
+
+        document.getElementById("memoryBtn")
+            .textContent = "Correct!";
+
+    }else{
+
+        document.getElementById("memoryBtn")
+            .textContent = "Incorrect";
+
+    }
+
+    clearTimeout(memoryTimeout);
+
+    setTimeout(nextLevel,800);
+}
+
+
+/* =========================================
+   FOCUS TEST
+========================================= */
+
+function loadFocus(){
+
+    document.getElementById("testTitle").textContent =
+        "🎯 Focus Test";
+
+    document.getElementById("testDescription").textContent =
+        "Find the only different symbol.";
+
+    const area =
+        document.getElementById("testArea");
+
+    const size =
+        currentLevel <= 3 ? 4 :
+        currentLevel <= 6 ? 5 : 6;
+
+    const total =
+        size * size;
+
+    let different =
+        Math.floor(Math.random()*total);
+
+    area.innerHTML = "";
+
+    const grid =
+        document.createElement("div");
+
+    grid.className = "focus-grid";
+
+    grid.style.gridTemplateColumns =
+        `repeat(${size},1fr)`;
+
+    for(let i=0;i<total;i++){
+
+        const cell =
+            document.createElement("div");
+
+        cell.className = "focus-cell";
+
+        cell.textContent =
+            i === different ? "●" : "○";
+
+        cell.onclick = function(){
+
+            totalAnswers++;
+
+            if(i === different){
+
+                correctAnswers++;
+
+                score +=
+                    50 + currentLevel * 10;
+
+                cell.textContent = "✓";
+
+            }else{
+
+                cell.textContent = "✕";
+
+            }
+
+            const cells =
+                document.querySelectorAll(".focus-cell");
+
+            cells.forEach(c =>
+                c.onclick = null
+            );
+
+            setTimeout(nextLevel,700);
+        };
+
+        grid.appendChild(cell);
+    }
+
+    area.appendChild(grid);
+}
+
+
+/* =========================================
+   LOGIC TEST
+========================================= */
+
+function loadLogic(){
+
+    document.getElementById("testTitle").textContent =
+        "🔢 Logic Test";
+
+    document.getElementById("testDescription").textContent =
+        "Find the missing number in the pattern.";
+
+    const q = createLogicQuestion(currentLevel);
+
+    logicAnswer = q.answer;
+
+    const area =
+        document.getElementById("testArea");
+
+    area.innerHTML = `
+        <div class="logic-question">
+            ${q.question}
+        </div>
+
+        <input
+            class="logic-input"
+            id="logicInput"
+            type="number"
+            inputmode="numeric"
+            placeholder="?"
+        >
+
+        <button
+            class="action-btn"
+            onclick="checkLogic()"
+        >
+            Submit
+        </button>
+    `;
+
+    document.getElementById("logicInput").focus();
+
+    document.getElementById("logicInput").onkeydown =
+        function(e){
+
+            if(e.key === "Enter"){
+                checkLogic();
+            }
+
+        };
+}
+
+
+/* =========================================
+   LOGIC QUESTION GENERATOR
+========================================= */
+
+function createLogicQuestion(level){
+
+    let start;
+    let a;
+    let b;
+    let c;
+
+    switch(level){
+
+        case 1:
+
+            start =
+                Math.floor(Math.random()*20)+2;
+
+            return {
+                question:
+                    `${start}, ${start+2}, ${start+4}, ${start+6}, ?`,
+                answer:start+8
+            };
+
+
+        case 2:
+
+            start =
+                Math.floor(Math.random()*8)+2;
+
+            return {
+                question:
+                    `${start}, ${start*2}, ${start*4}, ${start*8}, ?`,
+                answer:start*16
+            };
+
+
+        case 3:
+
+            start =
+                Math.floor(Math.random()*10)+2;
+
+            return {
+                question:
+                    `${start}, ${start+3}, ${start+6}, ${start+9}, ?`,
+                answer:start+12
+            };
+
+
+        case 4:
+
+            start =
+                Math.floor(Math.random()*10)+1;
+
+            return {
+                question:
+                    `${start}, ${start+2}, ${start+5}, ${start+9}, ?`,
+                answer:start+14
+            };
+
+
+        case 5:
+
+            a =
+                Math.floor(Math.random()*6)+2;
+
+            return {
+                question:
+                    `${a*a}, ${(a+1)*(a+1)}, ${(a+2)*(a+2)}, ?`,
+                answer:(a+3)*(a+3)
+            };
+
+
+        case 6:
+
+            start =
+                Math.floor(Math.random()*10)+2;
+
+            return {
+                question:
+                    `${start}, ${start*2}, ${start*2+2}, ${(start*2+2)*2}, ?`,
+                answer:((start*2+2)*2)+2
+            };
+
+
+        case 7:
+
+            start =
+                Math.floor(Math.random()*8)+2;
+
+            return {
+                question:
+                    `${start}, ${start+4}, ${start+9}, ${start+15}, ?`,
+                answer:start+22
+            };
+
+
+        case 8:
+
+            start =
+                Math.floor(Math.random()*5)+2;
+
+            a = start;
+            b = a * 2 + 1;
+            c = b * 2 + 1;
+
+            return {
+                question:
+                    `${a}, ${b}, ${c}, ${c*2+1}, ?`,
+                answer:(c*2+1)*2+1
+            };
+
+
+        case 9:
+
+            start =
+                Math.floor(Math.random()*5)+2;
+
+            return {
+                question:
+                    `${start}, ${start+5}, ${(start+5)*2}, ${((start+5)*2)+5}, ?`,
+                answer:(((start+5)*2)+5)*2
+            };
+
+
+        case 10:
+
+            start =
+                Math.floor(Math.random()*5)+2;
+
+            a = start;
+            b = a + 3;
+            c = b * 2;
+            let d = c + 3;
+
+            return {
+                question:
+                    `${a}, ${b}, ${c}, ${d}, ?`,
+                answer:d*2
+            };
+
+    }
+
+}
+
+
+/* =========================================
+   CHECK LOGIC
+========================================= */
+
+function checkLogic(){
+
+    const input =
+        Number(document.getElementById("logicInput").value);
+
+    if(
+        document.getElementById("logicInput")
+        .dataset.done === "1"
+    ){
+        return;
+    }
+
+    document.getElementById("logicInput")
+        .dataset.done = "1";
+
+    totalAnswers++;
+
+    if(input === logicAnswer){
+
+        correctAnswers++;
+
+        score +=
+            60 + currentLevel * 10;
+
+    }
+
+    setTimeout(nextLevel,700);
+}
+
+
+/* =========================================
+   NEXT LEVEL
+========================================= */
+
+function nextLevel(){
+
+    if(currentLevel >= 10){
+
+        finishTest();
+
+        return;
+    }
+
+    currentLevel++;
+
+    loadLevel();
+}
+
+
+/* =========================================
+   FINISH
+========================================= */
+
+function finishTest(){
+
+    document.getElementById("testScreen")
+        .style.display = "none";
+
+    document.getElementById("resultScreen")
+        .style.display = "block";
+
+    document.getElementById("finalScore")
+        .textContent = score;
+
+    document.getElementById("correctStat")
+        .textContent =
+        correctAnswers + " / " + totalAnswers;
+
+    document.getElementById("levelStat")
+        .textContent = "10";
+
+    const percentage =
+        totalAnswers === 0
+        ? 0
+        : Math.round(
+            correctAnswers /
+            totalAnswers * 100
+        );
+
+    document.getElementById("percentStat")
+        .textContent = percentage + "%";
+
+    let message = "";
+
+    if(percentage >= 90){
+
+        message =
+            "Excellent consistency. You completed all 10 levels with very high accuracy.";
+
+    }else if(percentage >= 70){
+
+        message =
+            "Strong performance. Keep practicing and try to improve your accuracy.";
+
+    }else if(percentage >= 50){
+
+        message =
+            "Nice attempt. Practice can help you become faster and more accurate.";
+
+    }else{
+
+        message =
+            "Challenge completed! Try again and see if you can improve your score.";
+
+    }
+
+    document.getElementById("resultMessage")
+        .textContent = message;
+}
+
+
+/* =========================================
+   HOME
+========================================= */
+
+function goHome(){
+
+    clearTimeout(reactionTimer);
+    clearTimeout(memoryTimeout);
+
+    document.getElementById("testScreen")
+        .style.display = "none";
+
+    document.getElementById("resultScreen")
+        .style.display = "none";
+
+    document.getElementById("homeScreen")
+        .style.display = "block";
+
+    window.scrollTo({
+        top:0,
+        behavior:"smooth"
+    });
+}
+
+</script>
+
+</body>
+</html>
